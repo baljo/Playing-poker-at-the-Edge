@@ -6,7 +6,7 @@ As sometimes happens to all of us, we are presented with a solution but don't ye
 
 This project is part one of two, showing how to classify poker cards into three categories, by using Edge Impulse and a supported board. Part two continues with using the same hardware setup for controlling the robot arm to sort cards, but also showcases how to easily adapt it to sorting waste.
 
-After initially having tested another board, I found that board to be a tad slow for my used case as the inferencing took over 1.2 seconds. Browsing through the boards Edge Impulse supports, I then decided to use the SiLabs xG24 kit together with an Arducam camera as I understood they would fit my use case better. As it turned out, the inferencing was in theory 3 times faster, but in practice 6 times faster with the xG24 compared to the other board!
+After initially having tested another board than I finally selected, I found that board to be a tad slow for my used case as the inferencing took over 1.2 seconds. Browsing through the boards Edge Impulse supports, I then decided to use the SiLabs xG24 kit together with an Arducam camera as I understood they would fit my use case better. As it turned out, the inferencing was in theory 3 times faster, but in practice 6 times faster with the xG24 compared to the other board!
 
 While one might think that classifying playing cards into only three classes is a piece of cake - actually it is when using Edge Impulse - the project also serves as a base to get started using the hardware and with a low learning curve. After you've got used with it, you can easily step up the ladder to more advanced projects.
 
