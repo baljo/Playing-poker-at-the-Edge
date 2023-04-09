@@ -2,7 +2,7 @@
 
 ## Intro
 
-As sometimes happens to all of us, we are presented with a solution but don't yet have a problem to solve! In this case the solution was that I got the chance to borrow a programmable robot arm for a few weeks, but as the robot was delivered much earlier than expected, I had not yet thought about a use case for it. For example, I needed to decide about what objects to pick and place using the suction cup, and also what software to use for controlling the robot. After some quick deliberation I decided to use playing cards as they are uniform and lightweight. For the controlling software I had initially thought about only using Python, but I quickly moved on to explore how to also use TinyML (Tiny Machine Learning) for a more rewarding experience.
+As sometimes happens to all of us, we are presented with a solution but don't yet have a problem to solve! In this case the solution was that I got the chance to borrow a programmable robot arm for a few weeks, but as the robot was delivered much earlier than expected, I had not yet thought about a use case for it. For example, I needed to decide about what objects to pick and place using the suction cup, and also what software to use for controlling the robot. After some quick deliberation I decided to use playing cards as they are uniform in size and alsolightweight. For the controlling software I had initially thought about only using Python, but I quickly moved on to explore how to also use TinyML (Tiny Machine Learning) for a more rewarding experience.
 
 This project is part one of two, showing how to classify poker cards into three categories, by using Edge Impulse and a supported board. Part two continues with using the same hardware setup for controlling the robot arm to sort cards, but also showcases how to easily adapt it to sorting waste.
 
@@ -15,10 +15,7 @@ While one might think that classifying playing cards into only three classes is 
 ## Problem being solved
 
 
-# Intro / Overview
-Briefly provide an introduction to your project. Address the following: what you are accomplishing, what the intended outcome is, highlight the use-case, describe the reasons for undertaking this project, and give a high level overview of the build. Provide a sentence or two for each of these aspects.  
-Summarize the problem you are addressing in one or two sentences, and how your solution makes an impact.  Be sure to also give a brief introduction to the hardware you have chosen and any key features, or reasons why the selected hardware is a good fit for your project. 
-Include a high-quality image of the hardware.
+
 
 # Problem Being Solved / Use-case Explanation
 Here we will go deeper into the problem that is being addressed.  We’ll want to provide evidence and data that the problem exists, and provide some possible improved outcomes and what we are hoping to achieve.  We need to establish credibility and demonstrate competence and innovation, so that readers have trust in the solution being presented.  This could be a good place to also further document the hardware features, sensors, or interfaces available on the board, describe what they do or what data they are intended to capture, and why that is important.  An image further detailing the problem or challenge would be useful, but might not be required depending upon the project.
@@ -41,3 +38,11 @@ Now it is time to show the finished project, deployed and running on the device.
 # Conclusion
 A brief summary recapping what you built, why, and the outcome you achieved.  A few sentences wrapping up the project, any next steps you might take, or giving advice to the reader on how they can take your project and replicate it as-is, iterate, expand, or even scale your work.  All Expert Projects should be Public Projects, so explain that a reader can Clone your work and has access to your data, model, and can review the steps you took.  Reinforce the human health or machine health use case, and provide any final links or attribution.  
 
+
+
+# DONE
+
+# Intro / Overview
+Briefly provide an introduction to your project. Address the following: what you are accomplishing, what the intended outcome is, highlight the use-case, describe the reasons for undertaking this project, and give a high level overview of the build. Provide a sentence or two for each of these aspects.  
+Summarize the problem you are addressing in one or two sentences, and how your solution makes an impact.  Be sure to also give a brief introduction to the hardware you have chosen and any key features, or reasons why the selected hardware is a good fit for your project. 
+Include a high-quality image of the hardware.
