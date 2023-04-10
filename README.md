@@ -35,9 +35,16 @@ The SiLabs xG24 dev kit is packed with sensors and features. Among the sensors a
 **INSERT HIGH QUALITY IMAGE w/ Edge Impulse label**
 
 
-## Data collection
+## Data Collection Process
 
 When collecting data for a machine learning (ML) application, it is generally better to use same device as will be used for inferencing. I started out with this assumption, but found it quite tedious to capture hundreds and hundreds of images with the xG24 and Arducam as it took up to 5 seconds per image. The reason for the slowness might be that the 256 kB RAM is not enough for storing one image, and instead the much slower flash memory needs to be used. Instead I moved onto using a mobile phone camera which made the data gathering process much faster, and almost fun, as I could take 3-4 images per second!
+
+### Software and hardware used to capture data:
+
+* [Edge Impulse Studio & CLI (Command-Line Interface)](https://www.edgeimpulse.com/)
+* SiLabs xG24 was used for ~10 % of the data
+    * to use this with Edge Impulse, you first need to flash the Edge Impulse firmware, detailed steps are found in the [documentation](https://docs.edgeimpulse.com/docs/development-platforms/officially-supported-mcu-targets/silabs-xg24-devkit)
+* mobile phone camera (iPhone 12) was used for ~90 % of the data
 
 ### Steps to reproduce
 
@@ -79,14 +86,60 @@ Developing ML models is an agile and iterative process where it is often better 
   
 ![](EI-01.png)
 
-Software and hardware used to capture data:
-* [Edge Impulse Studio & CLI (Command-Line Interface)](https://www.edgeimpulse.com/)
-* SiLabs xG24 was used for ~10 % of the data
-    * to use this with Edge Impulse, you first need to flash the Edge Impulse firmware, detailed steps are found from the [documentation](https://docs.edgeimpulse.com/docs/development-platforms/officially-supported-mcu-targets/silabs-xg24-devkit)
-* mobile phone camera (iPhone 12) was used for ~90 % of the data
+<br>
+
+## Building and Training the Model
+
+After you've collected some data, you need to build and train the model. The main steps in this process is to create an impulse, extract features, and finally train the model. Again, with image classification and when using Edge Impulse, this is often pretty straightforward.
+
+### Steps to reproduce
+
+In this project I knew beforehand that the 256 kB RAM memory would put some constraints on what model configuration to use. With 512 kB RAM I'd been able to use MobileNetV2 and 96x96 image size, and with 1M or more RAM I'd even been able to use MobileNetV2 and 160x160 image size. On the other hand, even if more memory can be beneficial, larger image sizes typically leads to longer inferencing times on the same device.
+
+* Creating an impulse
+    * Based on general recommendations, I chose to start with an image size of 96x96 pixels. I also chose to use `Squash` as `Resize mode` to not lose any data because of cropping. It might not actually have mattered in the end in this case, but as I used two completely different cameras (Arducam & Mobile Phone), having different aspect ratios, I wanted to avoid images from one camera being cropped where images from the other camera perhaps where not cropped similarly.
+    * Unless you have specific needs, it is best to use `Ìmage` as `Processing block` and `Transfer Learning (Images)` as `Learning block`. Transfer learning means that you'll use a pre-trained image classification model on your data with only some fine-tuning. This generally leads to good performance even with relatively small image datasets.
 
 
-## Training and building the model
+![](EI-06.png)
+
+<br>
+
+* Next step is to extract features
+    * For images you can choose between color or grayscale images. Whenever possible you should aim to use grayscale images as they consume much less memory and also can be processed much faster than colour images. In this project however, I chose to use RGB (colour) images as red and black look quite similar in grayscale, and the ML model might struggle to differentiate between them.
+
+
+![](EI-08.png)
+
+<br>
+
+* Click on ´Generate features`, after a while you'll see the feature explorer visualizing how similar or dissimilar the classes are.
+
+
+![](EI-10.png)
+
+<br>
+
+* The final step is to train the model
+    * While it generally is best to start with the default settings, I needed to switch to MobileNetV1 instead of MobileNetV2 due to the memory constraints. MobileNetV2 *can* be used with 256 kB RAM, but then you need to reduce from 96x96 to e.g. 64x64 pixels. I'd tried this, but the results were not good.  
+    * I discovered that changing the final layer to use 32 neurons, and the dropout rate to 0.01 worked well for this project.
+
+<br>
+
+![](EI-12.png)
+
+<br>
+
+* Click on `Start training` when you are ready to train the model
+    * Depending on the number of images and training cycles, this step might take some time. Once it is ready you can see the performance in the graphs on the right.
+    * Apart from when using "real" computers (e.g. Raspberry PI, Jetson Nano, etc.), you should only consider using quantized (int8) models as unoptimized (float32) models consumes much more memory and inferencing will be many times slower.
+    * In the bottom right corner you'll see an estimation of the on-device performance. Use this to validate if the performance is acceptable for your use case, or if you need to rethink your model - or perhaps even change device - to accomplish your goals.
+    * To speed up the search for an optimal ML model, you should take a look at the [EON tuner](https://docs.edgeimpulse.com/docs/edge-impulse-studio/eon-tuner) as well!  
+
+![](EI-14.png)
+
+
+
 
 
 ## Model deployment
@@ -94,9 +147,6 @@ Software and hardware used to capture data:
 ## Conclusion
 
 
-
-# Training and Building the Model
-Similar to the Data Collection Process section, a thorough description of the process used to build and train a model is important, so that readers can follow along and replicate your work.  Describe the elements in the Studio, the actions you take, and why.  Talk about the need for Training and Testing data, and when creating an Impulse,  Processing and Learning block options, Feature generation, and algorithm selection (FOMO, MobileNet, Yolo, etc) available to train and build the model.  Explain the selections you make, and the reasoning behind your choices.  Again images should be used here, screenshots walking a user through the process are very helpful.
 
 # Model Deployment
 Go into detail about the process of getting your resulting model into your application and onto your hardware.  This will of course vary by the target hardware, but explain what is occurring and how to flash your firmware, import the model if it’s a Linux device, or include a Library directly in your application.  Again describe the options presented to a user, and explain why you make the selections you do.  A few screenshots of the process would be useful.
@@ -124,3 +174,7 @@ If any additional components are needed to build the project, include a list / B
 
 # Data Collection Process
 Next we need to describe to a reader and demonstrate how data is collected.  Depending upon the type of the project, this might be done directly in the Edge Impulse Studio, via the use of a 3rd-party dataset, or data could be collected out in the field and later uploaded / ingested to Edge Impulse.  Data being captured should be explained, the specific process to capture it should be documented, and the loading of the data into Edge Impulse should be articulated as well.  Images will be helpful here, showing the device capturing data, or if you are making use of a pre-made dataset then you will need to describe where you acquired it, how you prepared the dataset for Edge Impulse, and what your upload process entails.  Pictures of the data capture and/or screenshots of loading the data will be needed.
+
+
+# Training and Building the Model
+Similar to the Data Collection Process section, a thorough description of the process used to build and train a model is important, so that readers can follow along and replicate your work.  Describe the elements in the Studio, the actions you take, and why.  Talk about the need for Training and Testing data, and when creating an Impulse,  Processing and Learning block options, Feature generation, and algorithm selection (FOMO, MobileNet, Yolo, etc) available to train and build the model.  Explain the selections you make, and the reasoning behind your choices.  Again images should be used here, screenshots walking a user through the process are very helpful.
