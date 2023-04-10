@@ -88,7 +88,7 @@ Developing ML models is an agile and iterative process where it is often better 
 
 <br>
 
-## Building and Training the Model
+## Building, Training, and Testing the Model
 
 After you've collected some data, you need to build and train the model. The main steps in this process is to create an impulse, extract features, and finally train the model. Again, with image classification and when using Edge Impulse, this is often pretty straightforward.
 
@@ -120,7 +120,7 @@ In this project I knew beforehand that the 256 kB RAM memory would put some cons
 
 <br>
 
-* The final step is to train the model
+* Next step is to train the model
     * While it generally is best to start with the default settings, I needed to switch to MobileNetV1 instead of MobileNetV2 due to the memory constraints. MobileNetV2 *can* be used with 256 kB RAM, but then you need to reduce from 96x96 to e.g. 64x64 pixels. I'd tried this, but the results were not good.  
     * I discovered that changing the final layer to use 32 neurons, and the dropout rate to 0.01 worked well for this project.
 
@@ -134,15 +134,36 @@ In this project I knew beforehand that the 256 kB RAM memory would put some cons
     * Depending on the number of images and training cycles, this step might take some time. Once it is ready you can see the performance in the graphs on the right.
     * Apart from when using "real" computers (e.g. Raspberry PI, Jetson Nano, etc.), you should only consider using quantized (int8) models as unoptimized (float32) models consumes much more memory and inferencing will be many times slower.
     * In the bottom right corner you'll see an estimation of the on-device performance. Use this to validate if the performance is acceptable for your use case, or if you need to rethink your model - or perhaps even change device - to accomplish your goals.
-    * To speed up the search for an optimal ML model, you should take a look at the [EON tuner](https://docs.edgeimpulse.com/docs/edge-impulse-studio/eon-tuner) as well!  
+    * To speed up the search for an optimal ML model, you should take a look at the [EON Tuner](https://docs.edgeimpulse.com/docs/edge-impulse-studio/eon-tuner) as well!  
 
 ![](EI-14.png)
 
 
+### Testing the Model
 
+Before deploying the model to the device itself, you should check how well it works on data it has not seen before. This is where the 20 % test data that was put aside comes into play. If the model performs poorly on test data, you can expect real performance to be even worse. But even a 100 % accuracy on test data does not guarantee success in real life, so don't open the champagne bottle yet :-).
 
+If the training performance is very good, but the test performance is poor, the reason might be that your model is overfitting on the training data. In that case you might need to collect more data, change the model or reduce its complexity. Now would be a good time to try the EON Tuner mentioned earlier.
+
+<br>
+
+![](EI-16.png)
+
+<br>
 
 ## Model deployment
+
+When deploying the model to the xG24 device, you can choose between deploying a Simplicity Studio Component, or a firmware binary. Deploying as a Simplicity Studio Component means you'll have to use an external tool to compile a C++ program yourself, but on the other hand it provides you with many more options and features.
+
+* In this project, I chose to deploy as a firmware binary. 
+
+![](EI-18.png)
+
+* To reduce the memory footprint, it is recommended to enable the EON Compiler.
+* Once ready, click on `Build` to create the files to be deployed.
+
+![](EI-19.png)
+
 ## Results
 ## Conclusion
 
