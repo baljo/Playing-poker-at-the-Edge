@@ -64,7 +64,7 @@ When collecting data for a machine learning (ML) application, it is generally be
 
 * To improve the accuracy of the model, I varied the illumination between using daylight and artificial light, and also by taking images from various angles and distances. Some of the images are even a bit blurry, but this is probably also making the model more robust. To be able to reuse the same images in part two, I deliberately also placed several cards on top of each other, sometimes with part of the underlying cards being visible. 
 
-* As mentioned, the different classes (labels) I used are red cards, black cards, and cards with back side up. In addition I also collected background and random images without having any card in them.  
+* As mentioned, the different classes (labels) I used are red cards, black cards, and cards with back side up. In addition, I also collected background and random images without having any card in them.  
 <br>
 
 ![](Card-01.png)
@@ -73,7 +73,7 @@ When collecting data for a machine learning (ML) application, it is generally be
 
 
 <br>
-Developing ML models is an agile and iterative process where it is often better to as quickly as possible test the model before spending too much time on it. Following this, I initially took only a few tens of images per class to test with, knowing that I'd most probably would need to gather more later. As is seen in the picture below, I ended up with a total of 1339 images with a 80% / 20% split between training and test data.
+Developing ML models is an agile and iterative process where it is often better to as quickly as possible test the model before spending too much time on it. Following this, I initially took only a few tens of images per class to test with, knowing that I'd most probably would need to gather more later. As is seen in the picture below, I ended up with a total of 1339 images with a 80% / 20% split between training and test data.  
 
 <br>
 
