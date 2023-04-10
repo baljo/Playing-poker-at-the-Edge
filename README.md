@@ -76,7 +76,7 @@ When collecting data for a machine learning (ML) application, it is generally be
 Developing ML models is an agile and iterative process where it is often better to as quickly as possible test the model before spending too much time on it. Following this, I initially took only a few tens of images per class to test with, knowing that I'd most probably would need to gather more later. As is seen in the picture below, I ended up with a total of 1339 images with a 80% / 20% split between training and test data.  
 
 <br>  
-
+  
 ![](EI-01.png)
 
 Software and hardware used to capture data:
