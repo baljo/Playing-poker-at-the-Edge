@@ -66,6 +66,7 @@ When collecting data for a machine learning (ML) application, it is generally be
 
 * As mentioned, the different classes (labels) I used are red cards, black cards, and cards with back side up. In addition I also collected background and random images without having any card in them.  
 <br>
+
 ![](Card-01.png)
 ![](Card-03.png)
 ![](Card-02.png)
