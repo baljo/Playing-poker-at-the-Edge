@@ -14,12 +14,9 @@ While one might think that classifying playing cards into only three classes is 
 
 As earlier mentioned I chose to classify playing cards for this project. While it is possible to classify cards into different suits, I decided to start simple by using three classes or labels: red cards, black cards, and cards with back side up. In addition I added a no card label to avoid the risk of an empty table being classified as a card. While classifying cards is pretty much straightforward, the typical rules also applied in this project: more images and also different type of images --> better performing model.
 
-![](Card-01.png)
-![](Card-02.png)
-
 After initially having tested another board, I found that board to be a tad slow for my use case as the inferencing took over 1.2 seconds. Browsing through the boards Edge Impulse supports, I then decided to use the SiLabs xG24 dev kit together with an Arducam camera as I believed they would fit my purposes better. As it turned out, the inferencing was 3 times faster than the other board I'd tried!
 
-The SiLabs xG24 dev kit is packed with sensors and features. Among the sensors are e.g. a relative humidity and temperature sensor, inertial sensor, stereo microphones, pressure sensor etc. Important features for this project was the Cortex-M33 processor, 256 kB RAM, and especially the AI/ML Hardware accelerator. It can even be operated with a coin-cell battery. While it is not equipped with a camera, it supports e.g. the Arducam OV2640 board which I also used.
+The SiLabs xG24 dev kit is packed with sensors and features. Among the sensors are e.g. a relative humidity and temperature sensor, inertial sensor, stereo microphones, pressure sensor etc. Important features for this project was the Cortex-M33 processor, 256 kB RAM, and especially the AI/ML Hardware accelerator, and it can even be operated with a coin-cell battery! While it is not equipped with a camera, it supports e.g. the Arducam OV2640 board which I also used.
 
 ## Components and Hardware Configuration
 
@@ -29,7 +26,6 @@ Hardware used:
 * [Pin Header 2.54mm 1x20 Pin](https://www.welectron.com/Pin-Header-254mm-1x20-Pin) for soldering to the SiLabs board
 
 Configure the hardware:
-* To use the xG24 board with Edge Impulse, you first need to flash the Edge Impulse firmware, detailed steps are found from the [documentation](https://docs.edgeimpulse.com/docs/development-platforms/officially-supported-mcu-targets/silabs-xg24-devkit).
 * Solder the header to the board
 * Connect the Dupont cable (came with the Arducam) to the headers according to the [camera assembly](https://docs.edgeimpulse.com/docs/tutorials/hardware-specific-tutorials/object-detection-xg24-devkit#camera-assembly)
     * Before powering on, double-check and triple-check the connection
@@ -41,11 +37,29 @@ Configure the hardware:
 
 ## Data collection
 
-Software used:
-* [Edge Impulse Studio & CLI (command-line interface)](https://www.edgeimpulse.com/)
+When collecting data for a machine learning (ML) application, it is generally better to use same device as will be used for inferencing. I started out with this assumption, but found it quite tedious to capture hundreds and hundreds of images with the xG24 and Arducam as it took up to 5 seconds per image. The reason for the slowness might be that the 256 kB RAM is not enough for storing one image, and instead the much slower flash memory needs to be used. Instead I moved onto using a mobile phone camera which made the data gathering process much faster, and almost fun, as I could take 3-4 images per second!
 
-* iPhone
-* xG24
+Collecting data with Edge Impulse is extremely easy with supported boards. You can either use the CLI (Command-Line Interface), or like I did, use Studio by choosing `Connect a device` from the `Data acquisition` menu  
+![](EI-02.png)
+
+To improve the accuracy of the model, I varied the illumination between using daylight and artificial light, and also by taking images from various angles and distances. Some of the images are even a bit blurry, but this is probably also making the model more robust. To be able to reuse the same images in part two, I deliberately also placed several cards on top of each other, sometimes with part of the underlying cards being visible. 
+
+As mentioned, the different classes (labels) I used are red cards, black cards, and cards with back side up. In addition I also collected background and random images without any card.
+
+![](Card-01.png)
+![](Card-03.png)
+![](Card-02.png)
+
+Developing ML models is an agile and iterative process where it is often better to as quickly as possible test the model before spending too much time on it. Following this, I initially took only a few tens of images per class to test with, knowing that I'd most probably would need to gather more later. As is seen in the picture below, I ended up with a total of 1339 images. 
+
+![](EI-01.png)
+
+Software and hardware used to capture data:
+* [Edge Impulse Studio & CLI (Command-Line Interface)](https://www.edgeimpulse.com/)
+* SiLabs xG24 for ~10 % of the data
+    * to use this with Edge Impulse, you first need to flash the Edge Impulse firmware, detailed steps are found from the [documentation](https://docs.edgeimpulse.com/docs/development-platforms/officially-supported-mcu-targets/silabs-xg24-devkit)
+* mobile phone camera (iPhone 12) for ~90 % of the data
+
 
 ## Training and building the model
 ## Model deployment
