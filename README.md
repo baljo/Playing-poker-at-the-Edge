@@ -39,7 +39,8 @@ Configure the hardware:
 
 When collecting data for a machine learning (ML) application, it is generally better to use same device as will be used for inferencing. I started out with this assumption, but found it quite tedious to capture hundreds and hundreds of images with the xG24 and Arducam as it took up to 5 seconds per image. The reason for the slowness might be that the 256 kB RAM is not enough for storing one image, and instead the much slower flash memory needs to be used. Instead I moved onto using a mobile phone camera which made the data gathering process much faster, and almost fun, as I could take 3-4 images per second!
 
-Collecting data with Edge Impulse is extremely easy with supported boards. You can either use the CLI (Command-Line Interface), or like I did, use Studio by choosing `Connect a device` from the `Data acquisition` menu  
+Collecting data with Edge Impulse is extremely easy with supported boards. You can either use the CLI (Command-Line Interface), or like I did, use Studio by choosing `Connect a device` from the `Data acquisition` menu.
+
 ![](EI-02.png)
 
 To improve the accuracy of the model, I varied the illumination between using daylight and artificial light, and also by taking images from various angles and distances. Some of the images are even a bit blurry, but this is probably also making the model more robust. To be able to reuse the same images in part two, I deliberately also placed several cards on top of each other, sometimes with part of the underlying cards being visible. 
