@@ -20,12 +20,12 @@ The SiLabs xG24 dev kit is packed with sensors and features. Among the sensors a
 
 ## Components and Hardware Configuration
 
-Hardware used:
+### Hardware used:
 * [SiLabs xG24-DK2601B EFR32xG24 Dev Kit](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)
 * [Arducam B0067 2MP OV2640 SPI Camera for Arduino](https://www.welectron.com/Arducam-B0067-2MP-OV2640-SPI-Camera-for-Arduino_1)
 * [Pin Header 2.54mm 1x20 Pin](https://www.welectron.com/Pin-Header-254mm-1x20-Pin) for soldering to the SiLabs board
 
-Configure the hardware:
+### Configure the hardware:
 * Solder the header to the board
 * Connect the Dupont cable (came with the Arducam) to the headers according to the [camera assembly](https://docs.edgeimpulse.com/docs/tutorials/hardware-specific-tutorials/object-detection-xg24-devkit#camera-assembly)
     * Before powering on, double-check and triple-check the connection
@@ -41,34 +41,48 @@ When collecting data for a machine learning (ML) application, it is generally be
 
 ### Steps to reproduce
 
-* Collecting data with Edge Impulse is extremely easy with supported boards. You can either use the CLI (Command-Line Interface), or like I did, use Studio by choosing `Connect a device` from the `Data acquisition` menu when using e.g. a mobile phone.
+* Collecting data with Edge Impulse is extremely easy with supported devices 
+    * You can either use the [CLI (Command-Line Interface)](https://docs.edgeimpulse.com/docs/edge-impulse-cli/cli-overview), or like I did, use Studio by choosing `Connect a device` from the `Data acquisition` menu when using e.g. a mobile phone.
+    * For details about how to use a mobile phone, please see the [documentation](https://docs.edgeimpulse.com/docs/development-platforms/using-your-mobile-phone).
+
+
+
+<br>
 
 
 ![](EI-02.png)
 
-* When connecting directly to a development board you instead choose `Connect using WebUSB`. Depending on the board, you can choose different sensors, or combination of sensors. In this case I chose to use 96x96 when capturing images with the xG24 board to avoid the need of resampling.
+<br>
+
+* When connecting directly to a development board you instead choose `Connect using WebUSB`. Depending on the board, you can choose different sensors, or combination of sensors. In this case, I chose to use 96x96 as image size when capturing images with the xG24 board, this to avoid the need of resampling.
+
+<br>
 
 ![](EI-03.png)
+
+<br>
 
 * To improve the accuracy of the model, I varied the illumination between using daylight and artificial light, and also by taking images from various angles and distances. Some of the images are even a bit blurry, but this is probably also making the model more robust. To be able to reuse the same images in part two, I deliberately also placed several cards on top of each other, sometimes with part of the underlying cards being visible. 
 
 * As mentioned, the different classes (labels) I used are red cards, black cards, and cards with back side up. In addition I also collected background and random images without having any card in them.  
-
+<br>
 ![](Card-01.png)
 ![](Card-03.png)
 ![](Card-02.png)
 
 
 <br>
-Developing ML models is an agile and iterative process where it is often better to as quickly as possible test the model before spending too much time on it. Following this, I initially took only a few tens of images per class to test with, knowing that I'd most probably would need to gather more later. As is seen in the picture below, I ended up with a total of 1339 images. 
+Developing ML models is an agile and iterative process where it is often better to as quickly as possible test the model before spending too much time on it. Following this, I initially took only a few tens of images per class to test with, knowing that I'd most probably would need to gather more later. As is seen in the picture below, I ended up with a total of 1339 images with a 80% / 20% split between training and test data.
+
+<br>
 
 ![](EI-01.png)
 
 Software and hardware used to capture data:
 * [Edge Impulse Studio & CLI (Command-Line Interface)](https://www.edgeimpulse.com/)
-* SiLabs xG24 for ~10 % of the data
+* SiLabs xG24 was used for ~10 % of the data
     * to use this with Edge Impulse, you first need to flash the Edge Impulse firmware, detailed steps are found from the [documentation](https://docs.edgeimpulse.com/docs/development-platforms/officially-supported-mcu-targets/silabs-xg24-devkit)
-* mobile phone camera (iPhone 12) for ~90 % of the data
+* mobile phone camera (iPhone 12) was used for ~90 % of the data
 
 
 ## Training and building the model
