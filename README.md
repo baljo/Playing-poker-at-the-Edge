@@ -1,21 +1,33 @@
 # Playing poker at the Edge, part 1 of 2
 
-## Intro
+## Introduction
 
-As sometimes happens to all of us, we are presented with a solution but don't yet have a problem to solve! In this case the solution was that I got the chance to borrow a programmable robot arm for a few weeks, but as the robot was delivered much earlier than expected, I had not yet thought about a use case for it. For example, I needed to decide about what objects to pick and place using the suction cup, and also what software to use for controlling the robot. After some quick deliberation I decided to use playing cards as they are uniform in size and alsolightweight. For the controlling software I had initially thought about only using Python, but I quickly moved on to explore how to also use TinyML (Tiny Machine Learning) for a more rewarding experience.
+As sometimes happens to all of us, we are presented with a solution but don't yet have a problem to solve! In this case the solution was that I got the chance to borrow a programmable robot arm for a few weeks, but as the robot was delivered much earlier than expected, I had not yet thought about a use case for it. Among other things I needed to decide about what objects to pick and place using the suction cup, and also what software to use for controlling the robot. **Insert/rewrite** After some quick deliberation I decided to use playing cards as they are uniform in size and also lightweight. For the controlling software I had initially thought about only using Python, but I quickly moved on to explore how to also use TinyML (Tiny Machine Learning) for a more rewarding experience.
 
-This project is part one of two, showing how to classify poker cards into three categories, by using Edge Impulse and a supported board. Part two continues with using the same hardware setup for controlling the robot arm to sort cards, but also showcases how to easily adapt it to sorting waste.
-
-After initially having tested another board than the one I finally selected, I found it to be a tad slow for my use case as the inferencing took over 1.2 seconds. Browsing through the boards Edge Impulse supports, I then decided to use the SiLabs xG24 kit together with an Arducam camera as I understood they would fit my purposes better. As it turned out, the inferencing was in theory 3 times faster, but in practice 6 times faster with the xG24 compared to the other board!
+This project is part one of two, showing how to classify poker cards into three categories, by using Edge Impulse and a supported board, SiLabs xG24. Part two continues with using the same hardware setup for controlling the robot arm to sort cards, but also showcases how to easily adapt it to sorting waste.
 
 While one might think that classifying playing cards into only three classes is a piece of cake - actually it is when using Edge Impulse - the project also serves as a base to get started using the hardware and with a low learning curve. After you've got used with it, you can easily step up the ladder to more advanced projects.
 
-**INSERT HIGH QUALITY IMAGE**
+**INSERT HIGH QUALITY IMAGE w/ Edge Impulse label**
 
-## Problem being solved
+## Use case explanation
+
+As earlier mentioned I chose to classify playing cards for this project. While it is possible to classify cards into different suits, I decided to start simple by using three classes or labels: red cards, black cards, and cards with back side up. In addition I added a no card label to avoid the risk of an empty table being classified as a card. While classifying cards is pretty much straightforward, the typical rules also applied in this project: more images and also different type of images --> better performing model.
+
+After initially having tested another board, I found that board to be a tad slow for my use case as the inferencing took over 1.2 seconds. Browsing through the boards Edge Impulse supports, I then decided to use the SiLabs xG24 dev kit together with an Arducam camera as I believed they would fit my purposes better. As it turned out, the inferencing was 3 times faster than the other board I'd tried!
+
+The SiLabs xG24 dev kit is packed with sensors and features. Among the sensors are e.g. a relative humidity and temperature sensor, inertial sensor, stereo microphones, pressure sensor etc. Important features for this project was the Cortex-M33 processor, 256 kB RAM, and especially the AI/ML Hardware accelerator. It can even be operated with a coin-cell battery. While it is not equipped with a camera, it supports e.g. the Arducam OV2640 board which I also used.
 
 
+## Data collection
 
+* iPhone
+* xG24
+
+## Training and building the model
+## Model deployment
+## Results
+## Conclusion
 
 # Problem Being Solved / Use-case Explanation
 Here we will go deeper into the problem that is being addressed.  We’ll want to provide evidence and data that the problem exists, and provide some possible improved outcomes and what we are hoping to achieve.  We need to establish credibility and demonstrate competence and innovation, so that readers have trust in the solution being presented.  This could be a good place to also further document the hardware features, sensors, or interfaces available on the board, describe what they do or what data they are intended to capture, and why that is important.  An image further detailing the problem or challenge would be useful, but might not be required depending upon the project.
