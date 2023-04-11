@@ -8,7 +8,9 @@ This project is part one of two, showing how to classify poker cards into three 
 
 While one might think that classifying playing cards into only three classes is a piece of cake - actually it is when using Edge Impulse - the project also serves as a base to get started using the hardware and with a low learning curve. After you've got used with it, you can easily step up the ladder to more advanced projects.
 
-**INSERT HIGH QUALITY IMAGE w/ Edge Impulse label**
+![](xG24-01.png)
+
+<br >
 
 ## Use-case Explanation
 
@@ -32,8 +34,11 @@ The SiLabs xG24 dev kit is packed with sensors and features. Among the sensors a
 
 **Important:** Avoid touching the board or camera when they are powered. I learned this the hard way and burned one board, probably through ESD (electrostatic discharge) when pressing the reset button. The blue magic smoke that was released was unhealthy for me and especially for my wallet...
 
-**INSERT HIGH QUALITY IMAGE w/ Edge Impulse label**
+<br>
 
+![](xG24-05_2.png)
+
+<br>
 
 ## Data Collection Process
 
@@ -87,6 +92,7 @@ Developing ML models is an agile and iterative process where it is often better 
 ![](EI-01.png)
 
 <br>
+
 
 ## Building, Training, and Testing the Model
 
@@ -151,6 +157,14 @@ If the training performance is very good, but the test performance is poor, the 
 
 <br>
 
+In my case, after having deployed and tested the first model with the xG24 device, I found out that the real model performance was much worse than when testing with Edge Impulse. To troubleshoot this, I tested with my mobile phone instead and saw that the model performed close to 100 %. My hypothesis was that the cameras were too different, but perhaps by adding a few images taken by the device itself would make the model stronger. As a matter of fact, this was also what happened.
+
+<br>
+
+![](xG24-03.png)
+
+<br>
+
 ## Model deployment
 
 When deploying the model to the xG24 device, you can choose between deploying a Simplicity Studio Component, or a firmware binary. Deploying as a Simplicity Studio Component means you'll have to use an external tool to compile a C++ program yourself, but on the other hand it provides you with many more options and features.
@@ -161,16 +175,30 @@ When deploying the model to the xG24 device, you can choose between deploying a 
 
 * To reduce the memory footprint, it is recommended to enable the EON Compiler.
 * Once ready, click on `Build` to create the files to be deployed.
+* After a few minutes the build process is complete, and instructions for flashing the firmware is shown. Follow the instructions to flash using the same Simplicity Commander you used earlier.
 
 ![](EI-19.png)
 
+<br>
+
 ## Results
+
+When you want to use the deployed model in a real scenario, you can again choose between different options, one of them being the command-line interface.
+
+* When using the CLI for an image classification project, I recommend you use `edge-impulse-run-impulse --debug` as you can see a live picture and the inferencing result in a web browser. Note that this is the same picture as is used for inferencing, in this case 96x96 pixels which explains the pixelation and unsharpness:
+
+
+![](EI-21.png)
+
+<br>
+
+* In addition you'll also see results as a log:
+
+![](EI-22.png)
+
 ## Conclusion
 
 
-
-# Model Deployment
-Go into detail about the process of getting your resulting model into your application and onto your hardware.  This will of course vary by the target hardware, but explain what is occurring and how to flash your firmware, import the model if it’s a Linux device, or include a Library directly in your application.  Again describe the options presented to a user, and explain why you make the selections you do.  A few screenshots of the process would be useful.
 
 # Results
 Now it is time to show the finished project, deployed and running on the device.  Let’s talk about the results of running the model, presenting data, evidence, or statistics as appropriate.  Not all projects may meet their objectives, or perform well, but we should still present the outcomes truthfully.  If the project was extremely successful, then we can articulate on how the project could be scaled to truly make an impact.  If the project fell short of its goal, that is fine as well, and we can discuss what might have gone wrong, how the project could be improved, and provide lessons learned.  Screenshots or images might be needed here, as well.  
@@ -199,3 +227,6 @@ Next we need to describe to a reader and demonstrate how data is collected.  Dep
 
 # Training and Building the Model
 Similar to the Data Collection Process section, a thorough description of the process used to build and train a model is important, so that readers can follow along and replicate your work.  Describe the elements in the Studio, the actions you take, and why.  Talk about the need for Training and Testing data, and when creating an Impulse,  Processing and Learning block options, Feature generation, and algorithm selection (FOMO, MobileNet, Yolo, etc) available to train and build the model.  Explain the selections you make, and the reasoning behind your choices.  Again images should be used here, screenshots walking a user through the process are very helpful.
+
+# Model Deployment
+Go into detail about the process of getting your resulting model into your application and onto your hardware.  This will of course vary by the target hardware, but explain what is occurring and how to flash your firmware, import the model if it’s a Linux device, or include a Library directly in your application.  Again describe the options presented to a user, and explain why you make the selections you do.  A few screenshots of the process would be useful.
