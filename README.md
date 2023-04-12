@@ -1,6 +1,5 @@
 # Playing poker at the Edge, part 1 of 2
 
-<br>
 
 # Introduction
 
