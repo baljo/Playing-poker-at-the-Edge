@@ -1,6 +1,8 @@
 # Playing poker at the Edge, part 1 of 2
 
-## Introduction
+<br>
+
+# Introduction
 
 As sometimes happens to all of us, we are presented with a solution but don't yet have a problem to solve! In this case the solution was that I got the chance to borrow a programmable robot arm for a few weeks, but as the robot was delivered much earlier than expected, I had not yet thought about a use case for it. Among other things I needed to decide about what objects to pick and place using the suction cup, and also what software to use for controlling the robot. **Insert/rewrite** After some quick deliberation I decided to use playing cards as they are uniform in size and also lightweight. For the controlling software I had initially thought about only using Python, but I quickly moved on to explore how to also use TinyML (Tiny Machine Learning) for a more rewarding experience.
 
@@ -12,7 +14,7 @@ While one might think that classifying playing cards into only three classes is 
 
 <br >
 
-## Use-case Explanation
+# Use-case Explanation
 
 As earlier mentioned I chose to classify playing cards for this project. While it is possible to classify cards into different suits, I decided to start simple by using three classes or labels: red cards, black cards, and cards with back side up. In addition I added a no card label to avoid the risk of an empty table being classified as a card. While classifying cards is pretty much straightforward, the typical rules also applied in this project: more images and also different type of images --> better performing model.
 
@@ -20,19 +22,19 @@ After initially having tested another board, I found that board to be a tad slow
 
 The SiLabs xG24 dev kit is packed with sensors and features. Among the sensors are e.g. a relative humidity and temperature sensor, inertial sensor, stereo microphones, pressure sensor etc. Important features for this project was the Cortex-M33 processor, 256 kB RAM, and especially the AI/ML Hardware accelerator, and it can even be operated with a coin-cell battery! While it is not equipped with a camera, it supports e.g. the Arducam OV2640 board which I also used.
 
-## Components and Hardware Configuration
+# Components and Hardware Configuration
 
-### Hardware used:
+## Hardware used:
 * [SiLabs xG24-DK2601B EFR32xG24 Dev Kit](https://www.silabs.com/development-tools/wireless/efr32xg24-dev-kit?tab=overview)
 * [Arducam B0067 2MP OV2640 SPI Camera for Arduino](https://www.welectron.com/Arducam-B0067-2MP-OV2640-SPI-Camera-for-Arduino_1)
 * [Pin Header 2.54mm 1x20 Pin](https://www.welectron.com/Pin-Header-254mm-1x20-Pin) for soldering to the SiLabs board
 
-### Configure the hardware:
+## Configure the hardware:
 * Solder the header to the board
 * Connect the Dupont cable (came with the Arducam) to the headers according to the [camera assembly](https://docs.edgeimpulse.com/docs/tutorials/hardware-specific-tutorials/object-detection-xg24-devkit#camera-assembly)
     * Before powering on, double-check and triple-check the connection
 
-**Important:** Avoid touching the board or camera when they are powered. I learned this the hard way and burned one board, probably through ESD (electrostatic discharge) when pressing the reset button. The blue magic smoke that was released was unhealthy for me and especially for my wallet...
+**Important:** Avoid touching the board or camera when they are powered. I learned this the hard way and burned one board, probably through ESD (electrostatic discharge) when pressing the reset button. The blue magic smoke that was released was unhealthy both for me and especially for my wallet...
 
 <br>
 
@@ -40,18 +42,18 @@ The SiLabs xG24 dev kit is packed with sensors and features. Among the sensors a
 
 <br>
 
-## Data Collection Process
+# Data Collection Process
 
 When collecting data for a machine learning (ML) application, it is generally better to use same device as will be used for inferencing. I started out with this assumption, but found it quite tedious to capture hundreds and hundreds of images with the xG24 and Arducam as it took up to 5 seconds per image. The reason for the slowness might be that the 256 kB RAM is not enough for storing one image, and instead the much slower flash memory needs to be used. Instead I moved onto using a mobile phone camera which made the data gathering process much faster, and almost fun, as I could take 3-4 images per second!
 
-### Software and hardware used to capture data:
+## Software and hardware used to capture data:
 
 * [Edge Impulse Studio & CLI (Command-Line Interface)](https://www.edgeimpulse.com/)
 * SiLabs xG24 was used for ~10 % of the data
     * to use this with Edge Impulse, you first need to flash the Edge Impulse firmware, detailed steps are found in the [documentation](https://docs.edgeimpulse.com/docs/development-platforms/officially-supported-mcu-targets/silabs-xg24-devkit)
 * mobile phone camera (iPhone 12) was used for ~90 % of the data
 
-### Steps to reproduce
+## Steps to reproduce
 
 * Collecting data with Edge Impulse is extremely easy with supported devices 
     * You can either use the [CLI (Command-Line Interface)](https://docs.edgeimpulse.com/docs/edge-impulse-cli/cli-overview), or like I did, use Studio by choosing `Connect a device` from the `Data acquisition` menu when using e.g. a mobile phone.
@@ -94,11 +96,11 @@ Developing ML models is an agile and iterative process where it is often better 
 <br>
 
 
-## Building, Training, and Testing the Model
+# Building, Training, and Testing the Model
 
 After you've collected some data, you need to build and train the model. The main steps in this process is to create an impulse, extract features, and finally train the model. Again, with image classification and when using Edge Impulse, this is often pretty straightforward.
 
-### Steps to reproduce
+## Steps to reproduce
 
 In this project I knew beforehand that the 256 kB RAM memory would put some constraints on what model configuration to use. With 512 kB RAM I'd been able to use MobileNetV2 and 96x96 image size, and with 1M or more RAM I'd even been able to use MobileNetV2 and 160x160 image size. On the other hand, even if more memory can be beneficial, larger image sizes typically leads to longer inferencing times on the same device.
 
@@ -144,8 +146,9 @@ In this project I knew beforehand that the 256 kB RAM memory would put some cons
 
 ![](EI-14.png)
 
+<br>
 
-### Testing the Model
+## Testing the Model
 
 Before deploying the model to the device itself, you should check how well it works on data it has not seen before. This is where the 20 % test data that was put aside comes into play. If the model performs poorly on test data, you can expect real performance to be even worse. But even a 100 % accuracy on test data does not guarantee success in real life, so don't open the champagne bottle yet :-).
 
@@ -165,7 +168,7 @@ In my case, after having deployed and tested the first model with the xG24 devic
 
 <br>
 
-## Model deployment
+# Model deployment
 
 When deploying the model to the xG24 device, you can choose between deploying a Simplicity Studio Component, or a firmware binary. Deploying as a Simplicity Studio Component means you'll have to use an external tool to compile a C++ program yourself, but on the other hand it provides you with many more options and features.
 
@@ -180,21 +183,24 @@ When deploying the model to the xG24 device, you can choose between deploying a 
 ![](EI-19.png)
 
 <br>
+<br>
 
-## Results
+# Results
 
 When you want to use the deployed model in a real scenario, you can again choose between different options, one of them being the command-line interface.
 
-* When using the CLI for an image classification project, I recommend you use `edge-impulse-run-impulse --debug` as you can see a live picture and the inferencing result in a web browser. Note that this is the same picture as is used for inferencing, in this case 96x96 pixels which explains the pixelation and unsharpness:
+* When using the CLI for an image classification project, I recommend you use `edge-impulse-run-impulse --debug` as you can see a live picture and the inferencing result in a web browser. Note that this is the same picture as is used for inferencing, in this case 96x96 pixels which explains the pixelation and unsharpness.
+* In addition you'll also see results as a running log
 
+<br>
 
 ![](EI-21.png)
 
 <br>
 
-* In addition you'll also see results as a log:
+![](blink_pong.gif)
 
-![](EI-22.png)
+![](EI-22_2.png)
 
 ## Conclusion
 
