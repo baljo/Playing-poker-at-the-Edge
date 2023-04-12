@@ -3,7 +3,7 @@
 
 # Introduction
 
-As sometimes happens to all of us, we are presented with a solution but don't yet have a problem to solve! In this case the solution was that I got the chance to borrow a programmable robot arm for a few weeks, but as the robot was delivered much earlier than expected, I had not yet thought about a use case for it. Among other things I needed to decide about what objects to pick and place using the suction cup, and also what software to use for controlling the robot. What comes to the objects to use, after some quick deliberation I decided to use playing cards as they are uniform in size and also lightweight. For the controlling software I had initially thought about only using Python (without any AI), but I quickly moved on to explore how to also use TinyML (Tiny Machine Learning) for a more rewarding experience.
+As sometimes happens to all of us, we are presented with a solution but don't yet have a problem to solve! In this case the solution was that I got the chance to borrow a programmable robot arm for a few weeks, but as the robot was delivered much earlier than expected, I had not yet thought about a use case for it. Among other things I needed to decide about what objects to pick and place using the suction cup, and also what software to use for controlling the robot. What came to the objects to use, I decided after some quick deliberation to use playing cards as they are uniform in size and also lightweight. For the controlling software I had initially thought about only using Python (without any AI), but I quickly moved on to explore how to also use TinyML (Tiny Machine Learning) for a more rewarding experience.
 
 This project is part one of two, showing how to classify poker cards into three categories, by using Edge Impulse and a supported board, SiLabs xG24. Part two continues with using the same hardware setup for controlling the aforementioned robot arm to sort cards, but also showcases how to easily adapt the setup to sorting waste.
 
@@ -17,7 +17,7 @@ While one might think that classifying playing cards into only three classes is 
 
 As earlier mentioned I chose to classify playing cards for this project. While it is possible to classify cards into different suits, I decided to start simple by using three classes or labels: red cards, black cards, and cards with back side up. In addition I added a no card label to avoid the risk of an empty table being classified as a card. While classifying cards is pretty much straightforward, the typical rules also applied in this project: more images and also different type of images --> better performing model.
 
-After initially having tested another board, I found that board to be a tad slow for my use case as the inferencing took over 1.2 seconds. Browsing through the boards Edge Impulse supports, I then decided to use the SiLabs xG24 dev kit together with an Arducam camera as I believed they would fit my purposes better. As it turned out, the inferencing was 3 times faster than the other board I'd tried!
+After initially having tested another board, I found that board to be a tad slow for my use case as the inferencing took over 1.2 seconds. Browsing through the boards Edge Impulse supports, I then decided to use the SiLabs xG24 dev kit together with an Arducam camera as I believed they would fit my purposes better. As it turned out, the inferencing was 3 times faster than with the other board I'd tried!
 
 The SiLabs xG24 dev kit is packed with sensors and features. Among the sensors are e.g. a relative humidity and temperature sensor, inertial sensor, stereo microphones, pressure sensor etc. Important features for this project was the Cortex-M33 processor, 256 kB RAM, and especially the AI/ML Hardware accelerator, and it can even be operated with a coin-cell battery! While it is not equipped with a camera, it supports e.g. the Arducam OV2640 board which I also used.
 
@@ -33,7 +33,7 @@ The SiLabs xG24 dev kit is packed with sensors and features. Among the sensors a
 * Connect the Dupont cable (came with the Arducam) to the headers according to the [camera assembly](https://docs.edgeimpulse.com/docs/tutorials/hardware-specific-tutorials/object-detection-xg24-devkit#camera-assembly)
     * Before powering on, double-check and triple-check the connection
 
-**Important:** Avoid touching the board or camera when they are powered. I learned this the hard way and burned one board, probably through ESD (electrostatic discharge) when pressing the reset button. The blue magic smoke that was released was unhealthy both for me and especially for my wallet...
+**Important:** Avoid touching the board or camera when they are powered. I learned this the hard way and burned one board, probably through ESD (electrostatic discharge) when pressing the reset button. The blue magic smoke that was released was unhealthy both for me, and especially for my wallet...
 
 <br>
 
@@ -67,7 +67,7 @@ When collecting data for a machine learning (ML) application, it is generally be
 
 <br>
 
-* When connecting directly to a development board you instead choose `Connect using WebUSB`. Depending on the board, you can choose different sensors, or combination of sensors. In this case, I chose to use 96x96 as image size when capturing images with the xG24 board, this to avoid the need of resampling.
+* When connecting directly to a development board, you instead choose `Connect using WebUSB`. Depending on the board, you can choose different sensors, or combination of sensors. In this case, I chose to use 96x96 as image size when capturing images with the xG24 board, this to avoid the need of resampling.
 
 <br>
 
@@ -88,7 +88,8 @@ When collecting data for a machine learning (ML) application, it is generally be
 <br>
 Developing ML models is an agile and iterative process where it is often better to as quickly as possible test the model before spending too much time on it. Following this, I initially took only a few tens of images per class to test with, knowing that I'd most probably would need to gather more later. As is seen in the picture below, I ended up with a total of 1339 images with a 80% / 20% split between training and test data.  
 
-<br>  
+<br>
+<br>
   
 ![](EI-01.png)
 
@@ -97,14 +98,14 @@ Developing ML models is an agile and iterative process where it is often better 
 
 # Building, Training, and Testing the Model
 
-After you've collected some data, you need to build and train the model. The main steps in this process is to create an impulse, extract features, and finally train the model. Again, with image classification and when using Edge Impulse, this is often pretty straightforward.
+After you've collected some data, you need to build and train the model. The main steps in this process are to create an impulse, extract features, and finally train the model. Again, with image classification and when using Edge Impulse, this is often pretty straightforward.
 
 ## Steps to reproduce
 
 In this project I knew beforehand that the 256 kB RAM memory would put some constraints on what model configuration to use. With 512 kB RAM I'd been able to use MobileNetV2 and 96x96 image size, and with 1M or more RAM I'd even been able to use MobileNetV2 and 160x160 image size. On the other hand, even if more memory can be beneficial, larger image sizes typically leads to longer inferencing times on the same device.
 
 * Creating an impulse
-    * Based on general recommendations, I chose to start with an image size of 96x96 pixels. I also chose to use `Squash` as `Resize mode` to not lose any data because of cropping. It might not actually have mattered in the end in this case, but as I used two completely different cameras (Arducam & Mobile Phone), having different aspect ratios, I wanted to avoid images from one camera being cropped where images from the other camera perhaps where not cropped similarly.
+    * Based on general recommendations, I chose to start with an image size of 96x96 pixels. I also chose to use `Squash` as `Resize mode` to not lose any data because of cropping. It might not actually have mattered in the end in this case, but as I used two completely different cameras (Arducam & mobile phone), having different aspect ratios, I wanted to avoid images from one camera being cropped where images from the other camera perhaps were not cropped similarly.
     * Unless you have specific needs, it is best to use `Ìmage` as `Processing block` and `Transfer Learning (Images)` as `Learning block`. Transfer learning means that you'll use a pre-trained image classification model on your data with only some fine-tuning. This generally leads to good performance even with relatively small image datasets.
 
 
@@ -211,5 +212,5 @@ The results of this project were more or less as expected. A bit surprising was 
 
 # Conclusion
 
-The main deliverables of this project were twofold: getting started with and understanding the SiLabs xG24 Dev kit together with the Arducam camera, as well as building and deploying an image classification ML model with Edge Impulse. You have also learned that building a ML model is not like a project, where you plan meticulously and then carefully follow the plan, but instead that it is an iterative process where you try out different things, fail sometimes, and succeed more often. In addition, what you've learned is a stepping stone to build more advanced models, e.g. by classifying different card suits, or even suit and value! In part two we will use what we've learned to control a robot arm to sort cards and also other objects.
+The main deliverables of this project were twofold: getting started with and understanding the SiLabs xG24 Dev kit together with the Arducam camera, as well as building and deploying an image classification ML model with Edge Impulse. You have also learned that building a ML model is not like a project, where you plan meticulously and then carefully follow the plan, but instead that it is an iterative process where you try out different things, fail sometimes, and hopefully succeed more often. In addition, what you've learned is a stepping stone to build more advanced models, e.g. by classifying different card suits, or even suit and value! In part two we will use what we've learned to control a robot arm to sort cards and also other objects.
 
